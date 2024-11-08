@@ -1,0 +1,85 @@
+[gd_scene load_steps=17 format=3 uid="uid://brejvwb0i6vje"]
+
+[ext_resource type="Texture2D" uid="uid://bgiprepdofgc6" path="res://textures/deep-green-lawn.jpg" id="1_rhixv"]
+[ext_resource type="Texture2D" uid="uid://coltpguf5oja4" path="res://textures/tarman-alpha.png" id="2_7nikc"]
+[ext_resource type="Texture2D" uid="uid://4hosbevhlpqd" path="res://textures/opendoor-godot.png" id="2_31bf0"]
+[ext_resource type="Script" path="res://CharacterBody3D.gd" id="4_qpoyb"]
+[ext_resource type="Texture2D" uid="uid://dwvaldbd4ffmx" path="res://textures/Untitled.jpg" id="5_8huov"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6thy"]
+transparency = 1
+albedo_texture = ExtResource("2_7nikc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_xdtvp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eq745"]
+albedo_texture = ExtResource("2_31bf0")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ufgm1"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6mci7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wjghi"]
+albedo_texture = ExtResource("1_rhixv")
+
+[sub_resource type="BoxMesh" id="BoxMesh_r2c0y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dgiil"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_fjvek"]
+panorama = ExtResource("5_8huov")
+
+[sub_resource type="Sky" id="Sky_gbrmv"]
+sky_material = SubResource("PanoramaSkyMaterial_fjvek")
+
+[sub_resource type="Environment" id="Environment_uu20p"]
+background_mode = 2
+sky = SubResource("Sky_gbrmv")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 5.66261, 14.3104)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 3.52201, 1.94304, 2.25184)
+material_override = SubResource("StandardMaterial3D_q6thy")
+mesh = SubResource("QuadMesh_xdtvp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 1.51329, 2.09897, 0.423366)
+material_override = SubResource("StandardMaterial3D_eq745")
+mesh = SubResource("QuadMesh_xdtvp")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30105, 0.684375, 11.9693)
+script = ExtResource("4_qpoyb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.01346, 1.32808, 5.83356)
+shape = SubResource("CapsuleShape3D_ufgm1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.01145, 1.33195, 5.83236)
+mesh = SubResource("CapsuleMesh_6mci7")
+
+[node name="neck" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.05079, 1.54518, 5.80442)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.092081, 0.0884309, -0.213898)
+rotation_order = 0
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(25, 0, 0, 0, 0.5, 0, 0, 0, 25, 0.533584, 0.571558, 12.6486)
+material_override = SubResource("StandardMaterial3D_wjghi")
+mesh = SubResource("BoxMesh_r2c0y")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
+shape = SubResource("BoxShape3D_dgiil")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_uu20p")
